@@ -5,10 +5,38 @@
 if [ "$CODESPACES" == "true" ]
 then
   echo "CodeSpaces environment detected"
+  CodeSpacesDotfilesConfig
+fi
+
+# Parameters
+while true; do
+  case "$1" in
+    -i|--init)
+      echo "Install/initialize software"
+      DotfilesConfig
+      InstallSoftware
+      shift
+    ;;
+    -d|--dotfiles)
+     DotfilesConfig
+  *)
+    break
+    ;;
+  esac
+done
+
+InstallSoftware {
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  brew bundle --file ./Brewfile
+}
+
+CodeSpacesDotfilesConfig {
+  echo "Dotsourcing config files"
   rm ~/.bashrc
   ln -s ~/dotfiles/bash/.bashrc ~/.bashrc
-else
-# Bash symlinking for generic environments
+}
+
+DotfilesConfig {
   echo "Generic environment detected"
   ln -s ~/Repos/dotfiles/bash/.bashrc ~/.bashrc
-fi
+}
