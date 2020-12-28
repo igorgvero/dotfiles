@@ -26,6 +26,9 @@ while true; do
 done
 
 InstallSoftware {
+  echo "Installing Xcode Command Line Tools"
+  xcode-select --install
+  echo "Installing Brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew bundle --file ./Brewfile
 }
